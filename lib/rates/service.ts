@@ -1,6 +1,7 @@
 import 'server-only'
 import { getDevelopmentFixture } from './providers/fixture'
 import { goldApiProvider } from './providers/goldapi'
+import { getChennaiRateSnapshot } from './store'
 import type { GoldRateResponse, GoldRateSnapshot, RateProvider } from './types'
 
 const providers: Record<string, RateProvider> = {
@@ -14,10 +15,10 @@ function numberEnv(name: string, fallback: number): number {
 
 export function getRateSettings() {
   return {
-    /** How long the upstream response is cached. GoldAPI free plan allows ~100 requests/month. */
-    cacheSeconds: numberEnv('GOLD_RATE_CACHE_SECONDS', 8 * 60 * 60),
-    /** Source prices older than this are labelled stale. */
-    staleAfterMinutes: numberEnv('GOLD_RATE_STALE_AFTER_MINUTES', 12 * 60),
+    /** How long upstream/cached responses are kept. */
+    cacheSeconds: numberEnv('GOLD_RATE_CACHE_SECONDS', 60),
+    /** Source prices older than this are labelled stale (36 hours accommodates once-a-day morning updates). */
+    staleAfterMinutes: numberEnv('GOLD_RATE_STALE_AFTER_MINUTES', 36 * 60),
     /** Calculations are disabled once the source price is older than this. Covers weekend market closures. */
     maxAgeMinutes: numberEnv('GOLD_RATE_MAX_AGE_MINUTES', 72 * 60),
     timeoutMs: numberEnv('GOLD_RATE_TIMEOUT_MS', 8000),
@@ -49,7 +50,7 @@ function build(
   const status = servedFromFallback || freshness.isStale ? 'stale' : 'ok'
   let message: string | null = null
   if (servedFromFallback) message = 'Showing the last successfully retrieved rate because the rate source is currently unreachable.'
-  else if (freshness.isStale) message = 'The rate source has not published a newer price recently. Markets may be closed.'
+  else if (freshness.isStale) message = 'Today’s updated rate has not been entered yet. Markets may still be opening.'
   if (!freshness.calculationsAllowed) message = 'The latest available rate is too old to calculate a reliable estimate.'
 
   return {
@@ -77,9 +78,16 @@ function unavailable(message: string): GoldRateResponse {
 
 export async function getGoldRates(): Promise<GoldRateResponse> {
   const settings = getRateSettings()
-  const apiKey = process.env.GOLD_RATE_API_KEY?.trim()
-  const providerId = process.env.GOLD_RATE_PROVIDER?.trim() || 'goldapi'
+  const providerId = process.env.GOLD_RATE_PROVIDER?.trim() || 'chennai'
+
+  // Default: Use Chennai Daily Rate store (updated once a day by owner/admin)
+  if (providerId === 'chennai' || !process.env.GOLD_RATE_API_KEY) {
+    const chennaiSnapshot = getChennaiRateSnapshot()
+    return build(chennaiSnapshot, new Date(), settings, false)
+  }
+
   const provider = providers[providerId]
+  const apiKey = process.env.GOLD_RATE_API_KEY?.trim()
 
   if (!apiKey) {
     if (process.env.NODE_ENV !== 'production') {

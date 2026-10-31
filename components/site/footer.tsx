@@ -92,7 +92,7 @@ export function Footer() {
           <p>
             &copy; <CurrentYear /> EDWIN GOLD. All rights reserved.
           </p>
-          <ul className="flex gap-5">
+          <ul className="flex items-center gap-5">
             <li>
               <Link href="/privacy-policy" className="hover:text-gold">
                 Privacy Policy
@@ -101,6 +101,11 @@ export function Footer() {
             <li>
               <Link href="/terms" className="hover:text-gold">
                 Terms &amp; Disclaimer
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/rates" className="text-ivory/40 hover:text-gold transition-colors">
+                Admin
               </Link>
             </li>
           </ul>

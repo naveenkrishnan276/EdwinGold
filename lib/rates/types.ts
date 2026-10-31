@@ -8,7 +8,7 @@ export const PURITY_FINENESS: Record<Purity, string> = {
   '14K': '58.5% (585)',
 }
 
-export type RateKind = 'international-spot' | 'development-fixture'
+export type RateKind = 'international-spot' | 'development-fixture' | 'chennai-daily'
 
 /** Provider-independent, normalized gold rate snapshot. */
 export interface GoldRateSnapshot {
