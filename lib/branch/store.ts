@@ -1,5 +1,5 @@
 import 'server-only'
-import { kvGet, kvGetSync, kvSet } from '@/lib/storage/serverless-kv'
+import { createAdminClient, createClient } from '@/lib/supabase/server'
 import type { BranchConfig } from './types'
 
 export const DEFAULT_BRANCH: BranchConfig = {
@@ -30,11 +30,14 @@ export const DEFAULT_BRANCH: BranchConfig = {
 }
 
 export async function getBranchConfig(): Promise<BranchConfig> {
-  return await kvGet<BranchConfig>('branch', DEFAULT_BRANCH)
+  const supabase = await createClient()
+  const { data, error } = await supabase.from('site_settings').select('value').eq('key', 'branch').maybeSingle()
+  if (error) throw new Error(`Unable to read branch settings: ${error.message}`)
+  return (data?.value as BranchConfig | null) ?? DEFAULT_BRANCH
 }
 
 export function getBranchConfigSync(): BranchConfig {
-  return kvGetSync<BranchConfig>('branch', DEFAULT_BRANCH)
+  return DEFAULT_BRANCH
 }
 
 export async function saveBranchConfig(update: Partial<BranchConfig>): Promise<BranchConfig> {
@@ -57,6 +60,8 @@ export async function saveBranchConfig(update: Partial<BranchConfig>): Promise<B
     updatedAt: new Date().toISOString(),
   }
 
-  await kvSet<BranchConfig>('branch', merged)
+  const supabase = createAdminClient()
+  const { error } = await supabase.from('site_settings').upsert({ key: 'branch', value: merged, updated_at: merged.updatedAt })
+  if (error) throw new Error(`Unable to save branch settings: ${error.message}`)
   return merged
 }
