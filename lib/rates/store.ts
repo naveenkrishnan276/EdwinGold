@@ -51,8 +51,8 @@ export async function saveChennaiRates(newRates: {
   return updatedData
 }
 
-export function getChennaiRateSnapshot(): GoldRateSnapshot {
-  const data = getChennaiRates()
+export async function getChennaiRateSnapshot(): Promise<GoldRateSnapshot> {
+  const data = await getChennaiRatesAsync()
 
   return {
     currency: 'INR',
