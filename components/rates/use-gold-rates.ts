@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import type { GoldRateResponse } from '@/lib/rates/types'
 
 async function fetchRates(url: string): Promise<GoldRateResponse> {
-  const res = await fetch(url)
+  const res = await fetch(url, { cache: 'no-store' })
   // 503 still carries a well-formed "unavailable" payload.
   if (res.ok || res.status === 503) return res.json()
   throw new Error(`Rate request failed (${res.status})`)

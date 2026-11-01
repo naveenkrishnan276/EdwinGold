@@ -14,13 +14,8 @@ export async function GET(request: NextRequest) {
   }
 
   const result = await getGoldRates()
-  const cacheControl =
-    result.status === 'unavailable'
-      ? 'no-store'
-      : 'public, max-age=60, s-maxage=300, stale-while-revalidate=600'
-
   return NextResponse.json(result, {
     status: result.status === 'unavailable' ? 503 : 200,
-    headers: { 'Cache-Control': cacheControl },
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
   })
 }
