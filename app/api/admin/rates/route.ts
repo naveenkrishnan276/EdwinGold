@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { getChennaiRatesAsync, saveChennaiRates } from '@/lib/rates/store'
 
 function getExpectedPin(): string {
-  return process.env.ADMIN_RATE_PIN?.trim() || '1234'
+  return process.env.ADMIN_RATE_PIN?.trim() || ''
 }
 
 export async function GET(request: NextRequest) {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const { pin, rates, note } = body
 
     const expectedPin = getExpectedPin()
-    if (!pin || pin.trim() !== expectedPin) {
+    if (!expectedPin || !pin || pin.trim() !== expectedPin) {
       return NextResponse.json(
         { error: 'Invalid Admin PIN. Please check your passcode and try again.' },
         { status: 401 },

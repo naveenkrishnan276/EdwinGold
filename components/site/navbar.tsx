@@ -124,15 +124,15 @@ export function Navbar() {
         {/* Header row: perfectly centered Logo and circular Close button */}
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-gold/20 px-5 sm:px-6 bg-[#0A2C24]">
           <Wordmark tone="light" showTagline={false} />
-          <label
-            htmlFor="mobile-nav-toggle"
+          <button
+            type="button"
             onClick={closeMenu}
             style={{ touchAction: 'manipulation' }}
-            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-gold/60 bg-forest text-gold hover:bg-white/10 active:scale-95 focus:outline-none cursor-pointer select-none"
+            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-gold/60 bg-forest text-gold hover:bg-white/10 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer select-none"
             aria-label="Close menu"
           >
             <X className="pointer-events-none size-5 text-[#F5CF66] stroke-[2.4]" aria-hidden="true" />
-          </label>
+          </button>
         </div>
 
         {/* Navigation Links list — compact and strictly non-scrollable (overflow-hidden) */}

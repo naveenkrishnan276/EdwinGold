@@ -1,5 +1,5 @@
 import 'server-only'
-import { kvGet, kvGetSync, kvSet } from '@/lib/storage/serverless-kv'
+import { createAdminClient, createClient } from '@/lib/supabase/server'
 import type { GoldRateSnapshot, Purity } from './types'
 
 export interface ChennaiRatesData {
@@ -19,11 +19,14 @@ const DEFAULT_RATES: ChennaiRatesData = {
 }
 
 export function getChennaiRates(): ChennaiRatesData {
-  return kvGetSync<ChennaiRatesData>('rates', DEFAULT_RATES)
+  return DEFAULT_RATES
 }
 
 export async function getChennaiRatesAsync(): Promise<ChennaiRatesData> {
-  return await kvGet<ChennaiRatesData>('rates', DEFAULT_RATES)
+  const supabase = await createClient()
+  const { data, error } = await supabase.from('site_settings').select('value').eq('key', 'rates').maybeSingle()
+  if (error) throw new Error(`Unable to read rates: ${error.message}`)
+  return (data?.value as ChennaiRatesData | null) ?? DEFAULT_RATES
 }
 
 export async function saveChennaiRates(newRates: {
@@ -42,7 +45,9 @@ export async function saveChennaiRates(newRates: {
     note: newRates.note?.trim() || 'Chennai Daily Gold Rate (MJDMA / Market Benchmark)',
   }
 
-  await kvSet<ChennaiRatesData>('rates', updatedData)
+  const supabase = createAdminClient()
+  const { error } = await supabase.from('site_settings').upsert({ key: 'rates', value: updatedData, updated_at: updatedData.updatedAt })
+  if (error) throw new Error(`Unable to save rates: ${error.message}`)
   return updatedData
 }
 
