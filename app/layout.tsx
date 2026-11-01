@@ -5,6 +5,8 @@ import { Navbar } from '@/components/site/navbar'
 import { Footer } from '@/components/site/footer'
 import { FloatingWhatsApp } from '@/components/site/floating-whatsapp'
 import { LocalBusinessJsonLd } from '@/components/site/json-ld'
+import { PwaInstallPrompt } from '@/components/site/pwa-install-prompt'
+import { MobileBottomBar } from '@/components/site/mobile-bottom-bar'
 import { siteConfig } from '@/lib/site-config'
 import './globals.css'
 
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
     'EDWIN GOLD buys gold in Ambattur, Chennai. Check the latest available 24K, 22K and 18K gold rates and estimate your gold value before you visit.',
   applicationName: 'EDWIN GOLD',
   generator: 'v0.app',
+  manifest: '/manifest.webmanifest',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
@@ -30,19 +33,23 @@ export const metadata: Metadata = {
     images: [{ url: '/images/gold-jewellery.png', width: 1024, height: 1024, alt: 'Gold jewellery on green velvet' }],
   },
   twitter: { card: 'summary_large_image' },
-  icons: { icon: '/icon.svg' },
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.png',
+  },
 }
 
 export const viewport: Viewport = {
   themeColor: '#0F3D32',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN" className={manrope.variable}>
-      <body>
+      <body className="flex min-h-screen flex-col">
         <a
           href="#main"
           className="sr-only z-[60] rounded-md bg-gold px-4 py-2 font-semibold text-forest focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
@@ -50,9 +57,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Navbar />
-        <main id="main">{children}</main>
+        <main id="main" className="flex-1 pb-16 lg:pb-0">
+          {children}
+        </main>
         <Footer />
         <FloatingWhatsApp />
+        <MobileBottomBar />
+        <PwaInstallPrompt />
         <LocalBusinessJsonLd />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

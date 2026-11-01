@@ -1,0 +1,29 @@
+{
+  "name": "EDWIN GOLD",
+  "tagline": "Your Gold. Your Value.",
+  "descriptor": "CASH FOR GOLD",
+  "address": {
+    "streetAddress": "No 125,Redhills Main Road ,Vijayalakshimipuram",
+    "landmark": "Opposite Naidu Mall, Near Oragadam Bus Stop",
+    "locality": "Ambattur",
+    "city": "Chennai",
+    "region": "Tamil Nadu",
+    "postalCode": "600053",
+    "country": "India"
+  },
+  "contact": {
+    "phone": "+91 994012170",
+    "whatsapp": "919940120170",
+    "email": "contact@edwingold.com"
+  },
+  "hours": [
+    "Mon–Sat: 9:00 AM – 7:00 PM",
+    "Sunday: 10:00 AM – 5:00 PM"
+  ],
+  "maps": {
+    "directionsUrl": "https://maps.app.goo.gl/iCzQXCbe9vHUt9B3A?g_st=ic",
+    "desktopPlaceUrl": "https://www.google.com/maps/place/Edwin+Gold/@13.1265142,80.1529368,19z/data=!3m1!4b1!4m6!3m5!1s0x3a5263b65a3b0193:0xe18892ad5eb11a55!8m2!3d13.1265129!4d80.1535805!16s%2Fg%2F11p2fh6f8x?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+    "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1942.7988!2d80.1529368!3d13.1265142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5263b65a3b0193%3A0xe18892ad5eb11a55!2sEdwin%20Gold!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+  },
+  "updatedAt": "2026-11-01T09:42:06.762Z"
+}

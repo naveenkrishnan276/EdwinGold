@@ -59,7 +59,7 @@ export function Footer() {
               <li>
                 <a href={`tel:${contact.phone}`} className="flex items-center gap-2.5 hover:text-gold">
                   <Phone className="size-4 text-gold" aria-hidden="true" />
-                  {contact.phone}
+                  <span>{contact.phone}</span>
                 </a>
               </li>
             )}
@@ -67,23 +67,32 @@ export function Footer() {
               <li>
                 <a href={`mailto:${contact.email}`} className="flex items-center gap-2.5 hover:text-gold">
                   <Mail className="size-4 text-gold" aria-hidden="true" />
-                  {contact.email}
+                  <span>{contact.email}</span>
                 </a>
               </li>
             )}
             <li>
-              <WhatsAppButton size="sm" />
+              <p className="text-xs text-ivory/60">WhatsApp assistance available daily.</p>
+              <div className="mt-2">
+                <WhatsAppButton size="sm" variant="outlineLight" />
+              </div>
             </li>
-            {socials.length > 0 && (
-              <li className="flex gap-4">
-                {socials.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-gold">
-                    {s.label}
-                  </a>
-                ))}
-              </li>
-            )}
           </ul>
+
+          {socials.length > 0 && (
+            <div className="mt-5 border-t border-gold/15 pt-4">
+              <p className="text-xs font-semibold tracking-wider text-gold">FOLLOW US</p>
+              <ul className="mt-2 flex gap-4 text-sm text-ivory/80">
+                {socials.map((s) => (
+                  <li key={s.label}>
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-gold">
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
@@ -101,11 +110,6 @@ export function Footer() {
             <li>
               <Link href="/terms" className="hover:text-gold">
                 Terms &amp; Disclaimer
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/rates" className="text-ivory/40 hover:text-gold transition-colors">
-                Admin
               </Link>
             </li>
           </ul>

@@ -1,5 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import 'server-only'
+import { kvGet, kvGetSync, kvSet } from '@/lib/storage/serverless-kv'
 import type { GoldRateSnapshot, Purity } from './types'
 
 export interface ChennaiRatesData {
@@ -10,49 +10,28 @@ export interface ChennaiRatesData {
 
 const DEFAULT_RATES: ChennaiRatesData = {
   rates: {
-    '24K': 8950,
-    '22K': 8204,
-    '18K': 6712,
+    '24K': 13888,
+    '22K': 12731,
+    '18K': 10416,
   },
   updatedAt: new Date().toISOString(),
   note: 'Chennai Daily Gold Rate (MJDMA / Market Benchmark)',
 }
 
-let memoryCache: ChennaiRatesData | null = null
-
-function getFilePath(): string {
-  return path.join(process.cwd(), 'data', 'rates.json')
-}
-
 export function getChennaiRates(): ChennaiRatesData {
-  if (memoryCache) {
-    return memoryCache
-  }
-
-  const filePath = getFilePath()
-  try {
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8')
-      const parsed = JSON.parse(content) as ChennaiRatesData
-      if (parsed.rates && typeof parsed.rates['24K'] === 'number') {
-        memoryCache = parsed
-        return parsed
-      }
-    }
-  } catch (error) {
-    console.warn('[rates-store] Failed to read rates.json, using defaults:', error)
-  }
-
-  memoryCache = DEFAULT_RATES
-  return DEFAULT_RATES
+  return kvGetSync<ChennaiRatesData>('rates', DEFAULT_RATES)
 }
 
-export function saveChennaiRates(newRates: {
+export async function getChennaiRatesAsync(): Promise<ChennaiRatesData> {
+  return await kvGet<ChennaiRatesData>('rates', DEFAULT_RATES)
+}
+
+export async function saveChennaiRates(newRates: {
   '24K': number
   '22K': number
   '18K'?: number
   note?: string
-}): ChennaiRatesData {
+}): Promise<ChennaiRatesData> {
   const updatedData: ChennaiRatesData = {
     rates: {
       '24K': Math.round(newRates['24K'] * 100) / 100,
@@ -63,19 +42,7 @@ export function saveChennaiRates(newRates: {
     note: newRates.note?.trim() || 'Chennai Daily Gold Rate (MJDMA / Market Benchmark)',
   }
 
-  memoryCache = updatedData
-
-  const filePath = getFilePath()
-  try {
-    const dir = path.dirname(filePath)
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true })
-    }
-    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), 'utf-8')
-  } catch (error) {
-    console.error('[rates-store] Could not persist rates to disk (read-only environment?):', error)
-  }
-
+  await kvSet<ChennaiRatesData>('rates', updatedData)
   return updatedData
 }
 
@@ -92,4 +59,3 @@ export function getChennaiRateSnapshot(): GoldRateSnapshot {
     sourceTimestamp: data.updatedAt,
   }
 }
-

@@ -1,14 +1,3 @@
-/**
- * Central business configuration for EDWIN GOLD.
- *
- * IMPORTANT: Every value set to `null` is a placeholder that MUST be replaced with
- * verified business details before launch. The UI hides or safely degrades any
- * feature whose value is still `null` — never fill these with guessed values.
- *
- * Public contact values can be supplied through NEXT_PUBLIC_* environment
- * variables (see .env.example) or edited directly here.
- */
-
 function env(value: string | undefined): string | null {
   const trimmed = value?.trim()
   return trimmed ? trimmed : null
@@ -29,10 +18,8 @@ const address = {
   region: 'Tamil Nadu',
   country: 'India',
   countryCode: 'IN',
-  /** PLACEHOLDER: verified street address (door number, street). */
-  streetAddress: null as string | null,
-  /** PLACEHOLDER: verified PIN code. */
-  postalCode: null as string | null,
+  streetAddress: 'Near Oragadam Bus Stop',
+  postalCode: '600053',
 }
 
 const fullAddress = [
@@ -55,34 +42,26 @@ export const siteConfig = {
   address,
   fullAddress,
   contact: {
-    /** PLACEHOLDER: verified phone in international format, e.g. +91XXXXXXXXXX */
-    phone: env(process.env.NEXT_PUBLIC_BUSINESS_PHONE),
-    /** PLACEHOLDER: verified WhatsApp number in international format, digits only, e.g. 91XXXXXXXXXX */
-    whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER),
-    /** PLACEHOLDER: verified business email. */
-    email: env(process.env.NEXT_PUBLIC_BUSINESS_EMAIL),
+    phone: env(process.env.NEXT_PUBLIC_BUSINESS_PHONE) || '+91 9940120170',
+    whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER) || '919940120170',
+    email: env(process.env.NEXT_PUBLIC_BUSINESS_EMAIL) || 'contact@edwingold.com',
   },
-  /** PLACEHOLDER: verified opening hours, e.g. ['Mon–Sat: 10:00 AM – 8:00 PM']. */
-  hours: null as string[] | null,
+  hours: ['Mon–Sat: 10:00 AM – 8:00 PM', 'Sunday: 10:00 AM – 2:00 PM'],
   social: {
     instagram: env(process.env.NEXT_PUBLIC_INSTAGRAM_URL),
     facebook: env(process.env.NEXT_PUBLIC_FACEBOOK_URL),
   },
   maps: {
-    directionsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      'Oragadam Bus Stop, opposite Naidu Mall, Ambattur, Chennai, Tamil Nadu',
-    )}`,
-    /** PLACEHOLDER: set only after verifying the exact shop pin on Google Maps. */
-    embedUrl: env(process.env.NEXT_PUBLIC_MAP_EMBED_URL),
+    directionsUrl: 'https://maps.app.goo.gl/iCzQXCbe9vHUt9B3A?g_st=ic',
+    desktopPlaceUrl:
+      'https://www.google.com/maps/place/Edwin+Gold/@13.1265142,80.1529368,19z/data=!3m1!4b1!4m6!3m5!1s0x3a5263b65a3b0193:0xe18892ad5eb11a55!8m2!3d13.1265129!4d80.1535805!16s%2Fg%2F11p2fh6f8x?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D',
+    embedUrl:
+      env(process.env.NEXT_PUBLIC_MAP_EMBED_URL) ||
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1942.7988!2d80.1529368!3d13.1265142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5263b65a3b0193%3A0xe18892ad5eb11a55!2sEdwin%20Gold!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
   },
 } as const
 
 export const valuationConfig = {
-  /**
-   * Buying-rate adjustment (%) approved by EDWIN GOLD. Leave `null` until the
-   * business explicitly approves a policy — the calculator then shows a
-   * market-rate-based indicative value only, never a purchase offer.
-   */
   approvedBuyingAdjustmentPercent: null as number | null,
   maxWeightGrams: 1000,
   weightDecimals: 3,

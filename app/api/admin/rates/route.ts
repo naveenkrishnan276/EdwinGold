@@ -1,13 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { revalidatePath } from 'next/cache'
-import { getChennaiRates, saveChennaiRates } from '@/lib/rates/store'
+import { getChennaiRatesAsync, saveChennaiRates } from '@/lib/rates/store'
 
 function getExpectedPin(): string {
   return process.env.ADMIN_RATE_PIN?.trim() || '1234'
 }
 
 export async function GET(request: NextRequest) {
-  const data = getChennaiRates()
+  const data = await getChennaiRatesAsync()
   const hasCustomPin = Boolean(process.env.ADMIN_RATE_PIN?.trim())
 
   return NextResponse.json({
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Please enter a valid 18K gold rate per gram.' }, { status: 400 })
     }
 
-    const updated = saveChennaiRates({
+    const updated = await saveChennaiRates({
       '24K': rate24K,
       '22K': rate22K,
       '18K': rate18K,

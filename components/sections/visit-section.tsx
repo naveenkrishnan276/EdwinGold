@@ -1,21 +1,34 @@
 import { Clock, MapPin, Navigation, Phone } from 'lucide-react'
-import { siteConfig } from '@/lib/site-config'
+import { getBranchConfigSync } from '@/lib/branch/store'
 import { SectionHeading } from '@/components/site/page-header'
 import { WhatsAppButton } from '@/components/site/whatsapp-button'
 import { brandButton } from '@/components/site/button-link'
 
 export function VisitSection() {
-  const { address, contact, hours, maps } = siteConfig
+  const branch = getBranchConfigSync()
+  const { address, contact, hours, maps } = branch
+
   return (
     <section aria-labelledby="visit-heading" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
         <div className="flex flex-col">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+              </span>
+              Ambattur Store &middot; Open For Valuation
+            </span>
+          </div>
+
           <SectionHeading
             id="visit-heading"
-            eyebrow="VISIT US"
-            title="Find us in Ambattur"
-            description="Easy to reach, right next to a familiar landmark."
+            eyebrow="SINGLE STORE LOCATION"
+            title="Visit Edwin Gold in Ambattur"
+            description="Conveniently situated right near Oragadam Bus Stop, opposite Naidu Mall. Sell your gold with immediate settlement."
           />
+
           <ul className="mt-8 flex flex-col gap-5">
             <li className="flex gap-4">
               <Icon icon={MapPin} />
@@ -31,31 +44,32 @@ export function VisitSection() {
             <li className="flex gap-4">
               <Icon icon={Clock} />
               <div>
-                <p className="font-semibold text-forest">Opening hours</p>
-                {hours ? (
-                  hours.map((h) => (
-                    <p key={h} className="text-sm text-muted-foreground">
+                <p className="font-semibold text-forest">Store Timings</p>
+                {hours && hours.length > 0 ? (
+                  hours.map((h, i) => (
+                    <p key={i} className="text-sm text-muted-foreground">
                       {h}
                     </p>
                   ))
                 ) : (
-                  <p className="text-sm text-muted-foreground">Please message us on WhatsApp to confirm timings before visiting.</p>
+                  <p className="text-sm text-muted-foreground">Mon–Sat: 10:00 AM – 8:00 PM</p>
                 )}
               </div>
             </li>
             {contact.phone && (
               <li className="flex gap-4">
                 <Icon icon={Phone} />
-                <a href={`tel:${contact.phone}`} className="self-center font-semibold text-forest hover:underline">
+                <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="self-center font-semibold text-forest hover:underline">
                   {contact.phone}
                 </a>
               </li>
             )}
           </ul>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={maps.directionsUrl} target="_blank" rel="noopener noreferrer" className={brandButton({ variant: 'forest', size: 'lg' })}>
               <Navigation aria-hidden="true" />
-              Get directions
+              Get directions on Google Maps
               <span className="sr-only">(opens Google Maps)</span>
             </a>
             <WhatsAppButton template="directions" label="Ask for directions" size="lg" variant="outline" />
@@ -67,7 +81,7 @@ export function VisitSection() {
             <iframe
               src={maps.embedUrl}
               title="Map showing EDWIN GOLD location in Ambattur"
-              className="size-full min-h-72"
+              className="size-full min-h-80 border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
@@ -77,14 +91,14 @@ export function VisitSection() {
                 <MapPin className="size-6" aria-hidden="true" />
               </span>
               <div>
-                <p className="font-semibold">Near Oragadam Bus Stop</p>
-                <p className="text-sm text-ivory/70">Opposite Naidu Mall &middot; Ambattur, Chennai</p>
+                <p className="font-semibold">{address.landmark}</p>
+                <p className="text-sm text-ivory/70">{address.locality}, {address.city}</p>
               </div>
               <a
                 href={maps.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold text-gold underline-offset-4 hover:underline"
+                className={brandButton({ variant: 'gold', size: 'sm' })}
               >
                 Open in Google Maps<span className="sr-only"> (opens in a new tab)</span>
               </a>

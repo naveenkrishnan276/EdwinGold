@@ -29,8 +29,8 @@ export function StepsList() {
       {steps.map((step, i) => (
         <li key={step.title} className="relative flex flex-col rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
           <div className="flex items-center justify-between">
-            <span className="inline-flex size-11 items-center justify-center rounded-full bg-forest text-gold">
-              <step.icon className="size-5" aria-hidden="true" />
+            <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#0F3D32] ring-1 ring-[#D4AF37]/50 shadow-sm">
+              <step.icon className="size-5 text-[#F5CF66] stroke-[2.2]" aria-hidden="true" />
             </span>
             <span aria-hidden="true" className="text-3xl font-bold tabular-nums text-gold/50">
               {String(i + 1).padStart(2, '0')}

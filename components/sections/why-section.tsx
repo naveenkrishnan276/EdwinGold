@@ -37,8 +37,8 @@ export function WhySection() {
         <ul className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
           {points.map((p) => (
             <li key={p.title} className="flex gap-4">
-              <span aria-hidden="true" className="inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-forest text-gold">
-                <p.icon className="size-5" />
+              <span aria-hidden="true" className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#0F3D32] ring-1 ring-[#D4AF37]/50 shadow-sm">
+                <p.icon className="size-6 text-[#F5CF66] stroke-[2.2]" />
               </span>
               <div>
                 <h3 className="font-bold text-forest">{p.title}</h3>

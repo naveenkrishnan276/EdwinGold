@@ -6,6 +6,7 @@
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
   --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --color-gold-foreground: var(--gold-foreground);
   --color-gold-ink: var(--gold-ink);
   --color-forest: var(--forest);
@@ -47,6 +48,7 @@
   --forest: #0f3d32;
   --forest-deep: #0a2c24;
   --gold: #d4af37;
+  --gold-soft: #f5cf66;
   --ivory: #f8f5ee;
   --charcoal: #2e2e2e;
   /* Darker gold for text on ivory (meets WCAG AA contrast). */
