@@ -82,7 +82,7 @@ export async function getGoldRates(): Promise<GoldRateResponse> {
 
   // Default: Use Chennai Daily Rate store (updated once a day by owner/admin)
   if (providerId === 'chennai' || !process.env.GOLD_RATE_API_KEY) {
-    const chennaiSnapshot = getChennaiRateSnapshot()
+    const chennaiSnapshot = await getChennaiRateSnapshot()
     return build(chennaiSnapshot, new Date(), settings, false)
   }
 
