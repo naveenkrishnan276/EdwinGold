@@ -714,7 +714,7 @@ export default function AdminDashboardPage() {
                           type="text"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="e.g. +91 98400 12345"
+                          placeholder="e.g. +91 9940120170"
                           className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                         />
                       </div>
@@ -727,7 +727,7 @@ export default function AdminDashboardPage() {
                           type="text"
                           value={whatsapp}
                           onChange={(e) => setWhatsapp(e.target.value)}
-                          placeholder="e.g. 919840012345"
+                          placeholder="e.g. 919940120170"
                           className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                         />
                       </div>

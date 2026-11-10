@@ -16,8 +16,8 @@ export const DEFAULT_BRANCH: BranchConfig = {
     country: 'India',
   },
   contact: {
-    phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91 98400 12345',
-    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919840012345',
+    phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91 9940120170',
+    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919940120170',
     email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@edwingold.com',
   },
   hours: ['Mon–Sat: 10:00 AM – 8:00 PM', 'Sunday: 10:00 AM – 2:00 PM'],
