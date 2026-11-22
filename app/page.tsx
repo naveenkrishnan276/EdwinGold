@@ -7,6 +7,7 @@ import { FaqSection } from '@/components/sections/faq-section'
 import { CtaBand } from '@/components/sections/cta-band'
 import { SectionHeading } from '@/components/site/page-header'
 import { ButtonLink } from '@/components/site/button-link'
+import { FeedbackSection } from '@/components/sections/feedback-section'
 
 export default async function HomePage() {
   const rates = await getGoldRates()
@@ -33,6 +34,7 @@ export default async function HomePage() {
       </section>
 
       <WhySection />
+      <FeedbackSection />
       <VisitSection />
       <FaqSection limit={4} />
       <CtaBand />
