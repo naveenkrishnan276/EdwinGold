@@ -1,9 +1,6 @@
 import { ArrowUpRight, Star } from 'lucide-react'
-import { getBranchConfigSync } from '@/lib/branch/store'
 
 export function FeedbackSection() {
-  const { maps } = getBranchConfigSync()
-
   return (
     <section aria-labelledby="feedback-heading" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-3xl bg-forest px-6 py-10 text-ivory sm:px-10 sm:py-12">
@@ -24,7 +21,7 @@ export function FeedbackSection() {
             </p>
           </div>
           <a
-            href={maps.directionsUrl}
+            href="https://g.page/r/CVUasV6tkojhEBM/review"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-forest transition-colors hover:bg-gold/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
